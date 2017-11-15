@@ -1,5 +1,3 @@
-# require:resources\opendns\Setup.msi
-
 $HideARP = 0
 $HideUI = 1
 $OrgId = ${env:UmbrellaOrgId}
@@ -14,7 +12,8 @@ Else {
         Write-Output "Umbrella is already installed on this system, skipping installation."
     }
     Else {
-        msiexec /i resources\opendns\Setup.msi /qn ORG_ID=${env:UmbrellaOrgId} ORG_FINGERPRINT=${env:UmbrellaFingerprint} USER_ID=${env:UmbrellaUserId} HIDE_UI=$HideUI HIDE_ARP=$HideARP
+        Invoke-WebRequest -Uri http://shared.opendns.com/roaming/enterprise/release/win/production/Setup.msi -OutFile Setup.msi
+        msiexec /i Setup.msi /qn ORG_ID=${env:UmbrellaOrgId} ORG_FINGERPRINT=${env:UmbrellaFingerprint} USER_ID=${env:UmbrellaUserId} HIDE_UI=$HideUI HIDE_ARP=$HideARP
 
         $SleptFor = 0
         $DoLoop = $True
